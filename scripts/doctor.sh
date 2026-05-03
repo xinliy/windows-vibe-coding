@@ -69,6 +69,7 @@ else
 fi
 
 if [ -r /etc/os-release ]; then
+  # shellcheck source=/dev/null
   distro="$(. /etc/os-release && printf '%s %s' "${NAME:-Linux}" "${VERSION_ID:-}")"
   ok "system" "Linux distro" "$distro"
 fi
