@@ -10,7 +10,7 @@ Status: done.
 - Troubleshooting notes
 - Initial recipes
 - Windows and WSL doctor scripts
-- Conservative install script placeholders
+- Conservative install scripts with dry-run defaults
 
 ## Step 2: Make Doctor Scripts Actually Useful
 

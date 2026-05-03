@@ -10,7 +10,7 @@ who want a reliable AI coding CLI workflow on Windows with WSL.
 - Create English and Chinese README files.
 - Document the recommended architecture.
 - Add non-destructive doctor scripts for Windows and WSL.
-- Add install script placeholders with clear output.
+- Add conservative install scripts with dry-run defaults.
 - Add recipes for Claude Code, Codex, Gemini CLI, and screenshots.
 
 ## Phase 2: Useful Doctor

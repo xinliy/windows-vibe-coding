@@ -16,8 +16,12 @@ Beginner flow:
 Power-user flow:
 
 ```powershell
-irm https://raw.githubusercontent.com/<owner>/windows-vibe-coding/main/install.ps1 | iex
+# Future bootstrapper after the GitHub repo is published:
+irm https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/windows-vibe-coding/main/install.ps1 | iex
 ```
+
+The repo does not ship a remote bootstrapper yet. For the MVP, users should
+download the repo or zip package and run `Start-Here.ps1`.
 
 ## Packaging Options
 
