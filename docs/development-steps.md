@@ -40,6 +40,16 @@ Done:
 - Add package groups: `minimal`, `ai-cli`, `docker`, `frontend`.
 - Keep Windows and WSL installation separate.
 
+Status: in progress.
+
+Done:
+
+- Added dry-run default behavior for both installers.
+- Added Windows groups: `minimal`, `docker`, `all`.
+- Added WSL groups: `minimal`, `node`, `ai-cli`, `frontend`, `all`.
+- Added `-Run`/`--run` execution switches.
+- Added `-Yes`/`--yes` prompt bypasses for automation.
+
 ## Step 3.5: Package For Beginners
 
 - Add a readable PowerShell bootstrapper.

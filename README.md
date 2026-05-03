@@ -57,6 +57,23 @@ Install scripts are intentionally separate:
 ./scripts/install-wsl.sh
 ```
 
+Both installers are dry-run by default. They print planned commands without
+changing the system.
+
+Run selected groups explicitly:
+
+```powershell
+.\scripts\install-windows.ps1 -Group minimal
+.\scripts\install-windows.ps1 -Group all -Run
+```
+
+```bash
+./scripts/install-wsl.sh --group minimal
+./scripts/install-wsl.sh --group node --group ai-cli --run
+```
+
+See [docs/installers.md](docs/installers.md) for all groups and safety rules.
+
 ## Recommended Stack
 
 - Windows 11
@@ -92,8 +109,8 @@ windows-vibe-coding/
 
 ## Status
 
-Early MVP. The current scripts are conservative and mostly diagnostic. The
-project will add automated installation step by step.
+Early MVP. The current scripts are conservative: diagnosis is safe, and
+installers are dry-run by default unless explicitly run.
 
 ## One-Click Installer Direction
 

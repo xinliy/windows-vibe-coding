@@ -29,6 +29,12 @@ who want a reliable AI coding CLI workflow on Windows with WSL.
 - Install Node.js LTS inside WSL.
 - Install Claude Code, Codex, and Gemini CLI inside WSL.
 
+Current implementation:
+
+- Installers are dry-run by default.
+- Windows installer supports `minimal`, `docker`, and `all`.
+- WSL installer supports `minimal`, `node`, `ai-cli`, `frontend`, and `all`.
+
 ## Phase 4: Workflow Polish
 
 - Add screenshot and clipboard recipes.

@@ -79,3 +79,16 @@ The first installer should only:
   Docker Desktop.
 - Tell the user to reboot when WSL requires it.
 - Open WSL instructions after Windows setup completes.
+
+## Current Script Contract
+
+The installer scripts are now designed around the contract needed by a future
+one-click package:
+
+- Preview by default.
+- Execute only with `-Run` or `--run`.
+- Ask before every command unless `-Yes` or `--yes` is set.
+- Install by named groups instead of one opaque full setup.
+
+This means the one-click package can safely start by running a diagnosis and
+showing the same command plan that power users can run manually.

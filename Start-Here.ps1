@@ -25,7 +25,9 @@ Write-Host ""
 Write-Host ""
 Write-Host "Step 2: review the recommended install commands." -ForegroundColor Cyan
 Write-Host "Run this when you are ready:"
-Write-Host "  .\scripts\install-windows.ps1" -ForegroundColor Yellow
+Write-Host "  .\scripts\install-windows.ps1 -Group minimal" -ForegroundColor Yellow
+Write-Host "To execute the plan:"
+Write-Host "  .\scripts\install-windows.ps1 -Group minimal -Run" -ForegroundColor Yellow
 Write-Host ""
 Write-Host "Step 3: after Windows setup, open WSL and run:"
 Write-Host "  ./scripts/doctor.sh" -ForegroundColor Yellow

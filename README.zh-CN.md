@@ -54,6 +54,22 @@ WSL:
 ./scripts/install-wsl.sh
 ```
 
+两个安装器默认都是 dry-run，只打印计划命令，不会改系统。
+
+显式选择安装分组：
+
+```powershell
+.\scripts\install-windows.ps1 -Group minimal
+.\scripts\install-windows.ps1 -Group all -Run
+```
+
+```bash
+./scripts/install-wsl.sh --group minimal
+./scripts/install-wsl.sh --group node --group ai-cli --run
+```
+
+完整分组和安全规则见 [docs/installers.md](docs/installers.md)。
+
 ## 推荐技术栈
 
 - Windows 11
@@ -68,7 +84,7 @@ WSL:
 
 ## 当前状态
 
-早期 MVP。当前脚本以检查和提示为主，后续逐步加入安全的自动安装能力。
+早期 MVP。当前脚本偏保守：诊断脚本是安全的，安装脚本默认 dry-run，只有显式加运行参数才会执行。
 
 ## 一键安装包方向
 
