@@ -1,14 +1,34 @@
+param(
+    [switch]$Json
+)
+
 $ErrorActionPreference = "SilentlyContinue"
+$Results = New-Object System.Collections.Generic.List[object]
 
 function Write-Check {
     param(
+        [string]$Category,
         [string]$Name,
         [bool]$Ok,
-        [string]$Hint = ""
+        [string]$Hint = "",
+        [string]$Value = ""
     )
 
+    $Results.Add([ordered]@{
+        category = $Category
+        name = $Name
+        ok = $Ok
+        value = $Value
+        hint = $Hint
+    })
+
+    if ($Json) {
+        return
+    }
+
     if ($Ok) {
-        Write-Host "[OK]   $Name" -ForegroundColor Green
+        $suffix = if ($Value) { " ($Value)" } else { "" }
+        Write-Host "[OK]   $Name$suffix" -ForegroundColor Green
     } else {
         Write-Host "[MISS] $Name" -ForegroundColor Yellow
         if ($Hint) {
@@ -17,33 +37,108 @@ function Write-Check {
     }
 }
 
-Write-Host "Windows Vibe Coding Doctor" -ForegroundColor Cyan
-Write-Host ""
+function Get-CommandVersion {
+    param(
+        [string]$Command,
+        [string[]]$VersionArgs = @("--version")
+    )
+
+    $cmd = Get-Command $Command
+    if (-not $cmd) {
+        return ""
+    }
+
+    $output = & $Command @VersionArgs 2>$null | Select-Object -First 1
+    if ($output) {
+        return ($output -join " ").Trim()
+    }
+
+    return ""
+}
+
+function Test-Command {
+    param(
+        [string]$Category,
+        [string]$Name,
+        [string]$Command,
+        [string]$Hint,
+        [string[]]$VersionArgs = @("--version")
+    )
+
+    $cmd = Get-Command $Command
+    $version = ""
+    if ($cmd) {
+        $version = Get-CommandVersion -Command $Command -VersionArgs $VersionArgs
+    }
+
+    Write-Check -Category $Category -Name $Name -Ok ($null -ne $cmd) -Hint $Hint -Value $version
+}
+
+if (-not $Json) {
+    Write-Host "Windows Vibe Coding Doctor" -ForegroundColor Cyan
+    Write-Host ""
+}
+
+$os = Get-CimInstance Win32_OperatingSystem
+if ($os) {
+    $caption = "$($os.Caption) $($os.Version)"
+    $isWindows11 = $os.Caption -like "*Windows 11*"
+    Write-Check -Category "system" -Name "Windows 11 recommended" -Ok $isWindows11 -Hint "Windows 10 can work, but Windows 11 has the best WSL and WSLg experience." -Value $caption
+}
 
 $wsl = Get-Command wsl.exe
-Write-Check "WSL command" ($null -ne $wsl) "Run: wsl --install"
+Write-Check -Category "wsl" -Name "WSL command" -Ok ($null -ne $wsl) -Hint "Run PowerShell as Administrator, then: wsl --install"
 
 if ($wsl) {
     $wslStatus = & wsl.exe --status 2>$null
-    Write-Host ""
-    Write-Host "WSL status:" -ForegroundColor Cyan
-    $wslStatus | ForEach-Object { Write-Host "  $_" }
+    $defaultDistro = (& wsl.exe --list --verbose 2>$null | Select-String -Pattern "^\s*\*" | ForEach-Object {
+        ($_ -replace "^\s*\*\s*", "" -replace "\s{2,}.*$", "").Trim()
+    } | Select-Object -First 1)
+    $hasDistro = [bool]$defaultDistro
+    Write-Check -Category "wsl" -Name "Default WSL distro" -Ok $hasDistro -Hint "Install Ubuntu with: wsl --install -d Ubuntu-24.04" -Value $defaultDistro
+
+    if (-not $Json) {
+        Write-Host ""
+        Write-Host "WSL status:" -ForegroundColor Cyan
+        $wslStatus | ForEach-Object { Write-Host "  $_" }
+    }
 }
 
 $commands = @(
-    @{ Name = "Windows Terminal"; Command = "wt.exe"; Hint = "Install via Microsoft Store or winget install Microsoft.WindowsTerminal" },
-    @{ Name = "PowerShell 7"; Command = "pwsh.exe"; Hint = "winget install Microsoft.PowerShell" },
-    @{ Name = "Git"; Command = "git.exe"; Hint = "winget install Git.Git" },
-    @{ Name = "GitHub CLI"; Command = "gh.exe"; Hint = "winget install GitHub.cli" },
-    @{ Name = "VS Code"; Command = "code.cmd"; Hint = "winget install Microsoft.VisualStudioCode" },
-    @{ Name = "Docker"; Command = "docker.exe"; Hint = "Install Docker Desktop and enable WSL integration" }
+    @{ Name = "Windows Terminal"; Command = "wt.exe"; Hint = "winget install Microsoft.WindowsTerminal"; Args = @("--version") },
+    @{ Name = "PowerShell 7"; Command = "pwsh.exe"; Hint = "winget install Microsoft.PowerShell"; Args = @("--version") },
+    @{ Name = "Git"; Command = "git.exe"; Hint = "winget install Git.Git"; Args = @("--version") },
+    @{ Name = "GitHub CLI"; Command = "gh.exe"; Hint = "winget install GitHub.cli"; Args = @("--version") },
+    @{ Name = "VS Code"; Command = "code.cmd"; Hint = "winget install Microsoft.VisualStudioCode"; Args = @("--version") },
+    @{ Name = "Docker"; Command = "docker.exe"; Hint = "Install Docker Desktop and enable WSL integration"; Args = @("--version") },
+    @{ Name = "WinGet"; Command = "winget.exe"; Hint = "Install App Installer from Microsoft Store"; Args = @("--version") }
 )
 
-Write-Host ""
-Write-Host "Windows tools:" -ForegroundColor Cyan
-foreach ($item in $commands) {
-    Write-Check $item.Name ($null -ne (Get-Command $item.Command)) $item.Hint
+if (-not $Json) {
+    Write-Host ""
+    Write-Host "Windows tools:" -ForegroundColor Cyan
 }
 
-Write-Host ""
-Write-Host "Next: open WSL and run ./scripts/doctor.sh from this repo." -ForegroundColor Cyan
+foreach ($item in $commands) {
+    Test-Command -Category "windows-tools" -Name $item.Name -Command $item.Command -Hint $item.Hint -VersionArgs $item.Args
+}
+
+$docker = Get-Command docker.exe
+if ($docker) {
+    $dockerInfo = & docker.exe info 2>$null
+    Write-Check -Category "docker" -Name "Docker daemon reachable" -Ok ($LASTEXITCODE -eq 0 -and $dockerInfo) -Hint "Start Docker Desktop, then enable Settings > Resources > WSL Integration."
+}
+
+if ($Json) {
+    [ordered]@{
+        tool = "windows-vibe-coding-doctor"
+        platform = "windows"
+        generatedAt = (Get-Date).ToString("o")
+        results = $Results
+    } | ConvertTo-Json -Depth 5
+} else {
+    $missing = ($Results | Where-Object { -not $_.ok }).Count
+    Write-Host ""
+    Write-Host "Summary: $missing issue(s) found." -ForegroundColor Cyan
+    Write-Host "Next: open WSL and run ./scripts/doctor.sh from this repo." -ForegroundColor Cyan
+}

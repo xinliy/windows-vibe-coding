@@ -20,13 +20,31 @@ The first version focuses on three things:
 From Windows PowerShell:
 
 ```powershell
+.\Start-Here.ps1
+```
+
+Or run the Windows doctor directly:
+
+```powershell
 .\scripts\doctor.ps1
+```
+
+Machine-readable output:
+
+```powershell
+.\scripts\doctor.ps1 -Json
 ```
 
 From WSL:
 
 ```bash
 ./scripts/doctor.sh
+```
+
+Machine-readable output:
+
+```bash
+./scripts/doctor.sh --json
 ```
 
 Install scripts are intentionally separate:
@@ -55,6 +73,7 @@ Install scripts are intentionally separate:
 
 ```text
 windows-vibe-coding/
+  Start-Here.ps1
   docs/
     mvp.md
     architecture.md
@@ -75,6 +94,12 @@ windows-vibe-coding/
 
 Early MVP. The current scripts are conservative and mostly diagnostic. The
 project will add automated installation step by step.
+
+## One-Click Installer Direction
+
+The long-term goal is a beginner-friendly installer. The first package should be
+a readable PowerShell bootstrapper and zip release, then a signed EXE only after
+the scripts are stable. See [docs/one-click-installer.md](docs/one-click-installer.md).
 
 ## License
 

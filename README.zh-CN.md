@@ -17,13 +17,31 @@
 Windows PowerShell:
 
 ```powershell
+.\Start-Here.ps1
+```
+
+或者直接运行 Windows doctor：
+
+```powershell
 .\scripts\doctor.ps1
+```
+
+机器可读输出：
+
+```powershell
+.\scripts\doctor.ps1 -Json
 ```
 
 WSL:
 
 ```bash
 ./scripts/doctor.sh
+```
+
+机器可读输出：
+
+```bash
+./scripts/doctor.sh --json
 ```
 
 安装脚本分开执行：
@@ -51,3 +69,9 @@ WSL:
 ## 当前状态
 
 早期 MVP。当前脚本以检查和提示为主，后续逐步加入安全的自动安装能力。
+
+## 一键安装包方向
+
+后续可以提供面向小白用户的一键安装入口。建议先做可读的 PowerShell
+bootstrapper 和 zip release，等脚本稳定后再做签名 EXE。路线见
+[docs/one-click-installer.md](docs/one-click-installer.md)。
