@@ -3,9 +3,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![shellcheck](https://github.com/xinliy/windows-vibe-coding/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/xinliy/windows-vibe-coding/actions/workflows/shellcheck.yml)
 
-一条命令检测你的 Windows + WSL AI coding 环境缺了什么，另一条命令分步安装——默认 dry-run，每步都让你先看再确认。
+**让 Windows 在 vibe coding 上一样出色。**
 
-覆盖 Claude Code、OpenAI Codex、Gemini CLI、VS Code、Docker、MCP 以及常见 WSL 坑。有主见，但全部可以检查。
+大多数 AI coding 工具默认以 Mac 为标准。这个 repo 补上这个差距——帮你把
+WSL 配对，检测缺什么、装什么，覆盖 Claude Code、Codex、Gemini CLI、VS Code
+和 Docker，每一步都可以先看再执行。
 
 [English](README.md) · [中文](README.zh-CN.md)
 

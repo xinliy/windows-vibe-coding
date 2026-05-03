@@ -3,11 +3,12 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![shellcheck](https://github.com/xinliy/windows-vibe-coding/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/xinliy/windows-vibe-coding/actions/workflows/shellcheck.yml)
 
-One command tells you exactly what's missing from your Windows + WSL AI coding
-setup. Another installs what you need — step by step, dry-run by default.
+**Let Windows be great for vibe coding.**
 
-Covers Claude Code, OpenAI Codex, Gemini CLI, VS Code, Docker, MCP, and common
-WSL gotchas. Opinionated but inspectable.
+Most AI coding tools are built with Mac in mind. This repo closes the gap —
+it sets up WSL the right way, diagnoses what's missing, and installs Claude
+Code, Codex, Gemini CLI, VS Code, and Docker with scripts you can read before
+running.
 
 [English](README.md) · [中文](README.zh-CN.md)
 
