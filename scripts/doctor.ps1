@@ -74,6 +74,36 @@ function Test-Command {
     Write-Check -Category $Category -Name $Name -Ok ($null -ne $cmd) -Hint $Hint -Value $version
 }
 
+function Normalize-WslLine {
+    param([string]$Line)
+
+    if (-not $Line) {
+        return ""
+    }
+
+    return ($Line -replace "`0", "").Trim()
+}
+
+function Get-DefaultWslDistro {
+    $quietList = & wsl.exe --list --quiet 2>$null
+    foreach ($line in $quietList) {
+        $clean = Normalize-WslLine $line
+        if ($clean) {
+            return $clean
+        }
+    }
+
+    $verboseList = & wsl.exe --list --verbose 2>$null
+    foreach ($line in $verboseList) {
+        $clean = Normalize-WslLine $line
+        if ($clean -match "^\*\s*(\S+)") {
+            return $Matches[1]
+        }
+    }
+
+    return ""
+}
+
 if (-not $Json) {
     Write-Host "Windows Vibe Coding Doctor" -ForegroundColor Cyan
     Write-Host ""
@@ -90,17 +120,20 @@ $wsl = Get-Command wsl.exe
 Write-Check -Category "wsl" -Name "WSL command" -Ok ($null -ne $wsl) -Hint "Run PowerShell as Administrator, then: wsl --install"
 
 if ($wsl) {
-    $wslStatus = & wsl.exe --status 2>$null
-    $defaultDistro = (& wsl.exe --list --verbose 2>$null | Select-String -Pattern "^\s*\*" | ForEach-Object {
-        ($_ -replace "^\s*\*\s*", "" -replace "\s{2,}.*$", "").Trim()
-    } | Select-Object -First 1)
+    $wslDistros = & wsl.exe --list --verbose 2>$null
+    $defaultDistro = Get-DefaultWslDistro
     $hasDistro = [bool]$defaultDistro
     Write-Check -Category "wsl" -Name "Default WSL distro" -Ok $hasDistro -Hint "Install Ubuntu with: wsl --install -d Ubuntu-24.04" -Value $defaultDistro
 
     if (-not $Json) {
         Write-Host ""
-        Write-Host "WSL status:" -ForegroundColor Cyan
-        $wslStatus | ForEach-Object { Write-Host "  $_" }
+        Write-Host "WSL distros:" -ForegroundColor Cyan
+        $wslDistros | ForEach-Object {
+            $line = Normalize-WslLine $_
+            if ($line) {
+                Write-Host "  $line"
+            }
+        }
     }
 }
 
