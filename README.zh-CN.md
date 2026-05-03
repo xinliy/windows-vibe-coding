@@ -1,16 +1,43 @@
-# Windows Vibe Coding Setup
+# Windows Vibe Coding
 
-面向 Windows + WSL 用户的一站式 AI coding 环境配置项目，覆盖 Claude Code、OpenAI Codex、Gemini CLI、VS Code、Docker、MCP、截图粘贴和常见踩坑。
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![shellcheck](https://github.com/xinliy/windows-vibe-coding/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/xinliy/windows-vibe-coding/actions/workflows/shellcheck.yml)
 
-这个 repo 的目标不是做个人 dotfiles，而是做一个可读、可检查、可逐步执行的 Windows AI coding 标准环境。
+一条命令检测你的 Windows + WSL AI coding 环境缺了什么，另一条命令分步安装——默认 dry-run，每步都让你先看再确认。
 
-## MVP 目标
+覆盖 Claude Code、OpenAI Codex、Gemini CLI、VS Code、Docker、MCP 以及常见 WSL 坑。有主见，但全部可以检查。
 
-第一版先解决三件事：
+[English](README.md) · [中文](README.zh-CN.md)
+
+## 运行效果
+
+```
+Windows Vibe Coding Doctor
+
+[OK]   Running inside WSL
+[OK]   Linux distro (Ubuntu 24.04 LTS)
+[OK]   Project path is in WSL filesystem (/home/user/code/my-project)
+
+Linux tools:
+[OK]   git (git version 2.43.0)
+[OK]   gh (gh version 2.47.0)
+[OK]   node (v20.12.0)
+[OK]   npm (10.5.0)
+[MISS] claude
+       npm install -g @anthropic-ai/claude-code
+[MISS] codex
+       npm install -g @openai/codex
+[OK]   docker (Docker version 26.0.0)
+[OK]   Docker daemon reachable
+
+Summary: 2 issue(s) found.
+```
+
+## 这个项目做什么
 
 1. 讲清楚推荐的 Windows + WSL 架构。
-2. 提供 `doctor` 检查脚本，定位常见问题。
-3. 提供分阶段安装脚本，用户可以先读再运行。
+2. 用一条 `doctor` 命令诊断你的环境。
+3. 提供分步安装脚本，可以先读再运行。
 
 ## 快速开始
 
@@ -82,14 +109,13 @@ WSL:
 - WSL 内安装 Claude Code、OpenAI Codex、Gemini CLI
 - Docker Desktop + WSL integration
 
-## 当前状态
+## 安全原则
 
-早期 MVP。当前脚本偏保守：诊断脚本是安全的，安装脚本默认 dry-run，只有显式加运行参数才会执行。
+诊断脚本只读，不改系统。安装脚本默认 dry-run，打印所有计划命令后等待确认。加 `-Run` / `--run` 才会执行，加 `-Yes` / `--yes` 跳过逐步确认。
 
 ## 一键安装包方向
 
-后续可以提供面向小白用户的一键安装入口。建议先做可读的 PowerShell
-bootstrapper 和 zip release，等脚本稳定后再做签名 EXE。路线见
+后续提供面向新手的一键安装入口：先做可读的 PowerShell bootstrapper 和 zip release，脚本稳定后再做签名 EXE。路线见
 [docs/one-click-installer.md](docs/one-click-installer.md)。
 
 ## 已经装了 Claude Code 或 Codex？

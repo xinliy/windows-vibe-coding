@@ -17,7 +17,7 @@ Power-user flow:
 
 ```powershell
 # Future bootstrapper after the GitHub repo is published:
-irm https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/windows-vibe-coding/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/xinliy/windows-vibe-coding/main/install.ps1 | iex
 ```
 
 The repo does not ship a remote bootstrapper yet. For the MVP, users should

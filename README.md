@@ -1,19 +1,45 @@
-# Windows Vibe Coding Setup
+# Windows Vibe Coding
 
-A practical Windows + WSL setup for Claude Code, OpenAI Codex, Gemini CLI,
-VS Code, Docker, MCP, screenshots, and sane AI coding workflows.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![shellcheck](https://github.com/xinliy/windows-vibe-coding/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/xinliy/windows-vibe-coding/actions/workflows/shellcheck.yml)
 
-This repo is being built as an opinionated, inspectable setup kit for developers
-who use Windows as their main machine but want Linux-first AI coding workflows
-inside WSL.
+One command tells you exactly what's missing from your Windows + WSL AI coding
+setup. Another installs what you need — step by step, dry-run by default.
 
-## MVP Goal
+Covers Claude Code, OpenAI Codex, Gemini CLI, VS Code, Docker, MCP, and common
+WSL gotchas. Opinionated but inspectable.
 
-The first version focuses on three things:
+[English](README.md) · [中文](README.zh-CN.md)
 
-1. Explain the recommended Windows + WSL architecture clearly.
-2. Detect common setup problems with a `doctor` command.
-3. Provide incremental install scripts that users can read before running.
+## What It Looks Like
+
+```
+Windows Vibe Coding Doctor
+
+[OK]   Running inside WSL
+[OK]   Linux distro (Ubuntu 24.04 LTS)
+[OK]   Project path is in WSL filesystem (/home/user/code/my-project)
+
+Linux tools:
+[OK]   git (git version 2.43.0)
+[OK]   gh (gh version 2.47.0)
+[OK]   node (v20.12.0)
+[OK]   npm (10.5.0)
+[MISS] claude
+       npm install -g @anthropic-ai/claude-code
+[MISS] codex
+       npm install -g @openai/codex
+[OK]   docker (Docker version 26.0.0)
+[OK]   Docker daemon reachable
+
+Summary: 2 issue(s) found.
+```
+
+## What This Repo Does
+
+1. Explains the recommended Windows + WSL architecture.
+2. Diagnoses your setup with a single `doctor` command.
+3. Installs missing tools in readable, dry-run steps you approve before running.
 
 ## Quick Start
 
@@ -107,16 +133,17 @@ windows-vibe-coding/
     install-wsl.sh
 ```
 
-## Status
+## Safety Model
 
-Early MVP. The current scripts are conservative: diagnosis is safe, and
-installers are dry-run by default unless explicitly run.
+Diagnosis is read-only. Installers are dry-run by default: they print every
+planned command before running anything. Use `-Run` / `--run` to execute, and
+`-Yes` / `--yes` to skip per-command prompts.
 
 ## One-Click Installer Direction
 
-The long-term goal is a beginner-friendly installer. The first package should be
-a readable PowerShell bootstrapper and zip release, then a signed EXE only after
-the scripts are stable. See [docs/one-click-installer.md](docs/one-click-installer.md).
+The long-term goal is a beginner-friendly installer. The first package will be
+a readable PowerShell bootstrapper and zip release, then a signed EXE once the
+scripts are stable. See [docs/one-click-installer.md](docs/one-click-installer.md).
 
 ## Already Have Claude Code Or Codex?
 
