@@ -13,7 +13,7 @@ WSL gotchas. Opinionated but inspectable.
 
 ## What It Looks Like
 
-![demo](demo.gif)
+![demo](demo-doctor.gif)
 
 ```
 Windows Vibe Coding Doctor

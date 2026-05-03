@@ -11,7 +11,7 @@
 
 ## 运行效果
 
-![demo](demo.gif)
+![demo](demo-doctor.gif)
 
 ```
 Windows Vibe Coding Doctor
