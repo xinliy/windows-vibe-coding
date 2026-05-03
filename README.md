@@ -118,6 +118,17 @@ The long-term goal is a beginner-friendly installer. The first package should be
 a readable PowerShell bootstrapper and zip release, then a signed EXE only after
 the scripts are stable. See [docs/one-click-installer.md](docs/one-click-installer.md).
 
+## Already Have Claude Code Or Codex?
+
+This repo includes agent instructions so an existing coding agent can help run
+diagnosis and preview setup plans safely:
+
+- [AGENTS.md](AGENTS.md)
+- [CLAUDE.md](CLAUDE.md)
+- [agent/skills/windows-vibe-coding/SKILL.md](agent/skills/windows-vibe-coding/SKILL.md)
+
+See [docs/agent-workflows.md](docs/agent-workflows.md).
+
 ## License
 
 MIT

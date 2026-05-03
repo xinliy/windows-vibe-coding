@@ -57,6 +57,15 @@ Done:
 - Reuse doctor JSON output for any future GUI or TUI.
 - Consider a signed EXE only after scripts are stable.
 
+## Step 3.6: Agent-Assisted Setup
+
+Status: in progress.
+
+- Add `AGENTS.md` for Codex-style coding agents.
+- Add `CLAUDE.md` for Claude Code.
+- Add a portable skill description under `agent/skills/windows-vibe-coding/`.
+- Keep agent behavior diagnosis-first and dry-run-first.
+
 ## Step 4: Document The Golden Path
 
 - Windows first-time setup.

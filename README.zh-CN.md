@@ -91,3 +91,13 @@ WSL:
 后续可以提供面向小白用户的一键安装入口。建议先做可读的 PowerShell
 bootstrapper 和 zip release，等脚本稳定后再做签名 EXE。路线见
 [docs/one-click-installer.md](docs/one-click-installer.md)。
+
+## 已经装了 Claude Code 或 Codex？
+
+这个 repo 提供了 agent 指令文件，已有的 coding agent 可以安全地帮你跑诊断和预览安装计划：
+
+- [AGENTS.md](AGENTS.md)
+- [CLAUDE.md](CLAUDE.md)
+- [agent/skills/windows-vibe-coding/SKILL.md](agent/skills/windows-vibe-coding/SKILL.md)
+
+说明见 [docs/agent-workflows.md](docs/agent-workflows.md)。
